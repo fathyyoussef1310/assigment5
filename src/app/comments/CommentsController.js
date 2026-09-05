@@ -25,8 +25,22 @@ const getcomments = async (req, res , next) => {
         next(err);
     }
 }
+const commentCreation =async (req,res,next) => {
+    try{
+     const {postId} = req.params;
+     const comment = await commentsServices.commentCreation(Number(postId));
+     res.status(200).json({
+         message: 'Comment creation successfully.',
+         success: true,
+         data: comment
+     })
+    }catch(err){
+        next(err);
+    }
+}
 
 module.exports={
     create,
     getcomments,
+    commentCreation,
 };

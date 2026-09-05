@@ -24,4 +24,26 @@ async function findOrCreateComment(postId, userId, content) {
         }
     });
 }
-module.exports = {create, findOrCreateComment};
+async function checkCommentExistence(postId) {
+    const existingComment = await prisma.comments.findFirst({
+        where: {
+            postId: postId,
+        }
+    })
+    return existingComment;
+}
+async function commentCreation(postId) {
+    const comment = await prisma.comments.findMany({
+        where: {
+            postId: postId
+        },
+        take:3,
+        orderBy:[{
+            createdAt: 'desc',
+        } , {
+            id:'desc'
+        }]
+    })
+    return comment;
+}
+module.exports = {create, findOrCreateComment , commentCreation,checkCommentExistence};

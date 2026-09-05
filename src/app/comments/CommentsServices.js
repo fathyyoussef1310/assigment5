@@ -12,7 +12,16 @@ const getComment = async function(postId, userId, content){
  );
  return comment;
 }
+const commentCreation = async function(postId,commentId){
+    const postExits = await commentsRepository.checkCommentExistence(postId)
+    if(!postExits){
+        throw new Error("Comment ");
+    }
+    const comment = await commentsRepository.commentCreation(postId);
+    return comment;
+}
 module.exports= {
     create,
-    getComment
+    getComment,
+    commentCreation
 };
